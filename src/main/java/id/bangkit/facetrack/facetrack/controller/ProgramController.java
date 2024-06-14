@@ -2,10 +2,13 @@ package id.bangkit.facetrack.facetrack.controller;
 
 import id.bangkit.facetrack.facetrack.dto.*;
 import id.bangkit.facetrack.facetrack.entity.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +27,7 @@ import java.util.Map;
 public class ProgramController {
     private final ProgramService programService;
 
+    @Operation(summary = "Check User availability", description = "check wether the user can add a new program or not")
     @GetMapping("/availability")
     public ResponseEntity<Map<String, Object>> canUserPostNewProgram() {
         boolean checkResult = programService.checkUserAvailability();
@@ -33,20 +37,27 @@ public class ProgramController {
         return ResponseEntity.ok().body(APIResponse.generateResponse(checkResult, "Boleh membuat program baru", null));
     }
 
-    @PostMapping()
+    @Operation(summary = "Create a new program", description = "Create a new program with skincare information")
+    @PostMapping(consumes = {MediaType.APPLICATION_JSON_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
-    public Map<String, Object> postNewProgram(@RequestBody @Valid CreateProgramRequest request) {
+    public Map<String, Object> postNewProgram(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "A request to create a new program")
+            @RequestBody @Valid CreateProgramRequest request) {
         Program newProgram = programService.createProgram(request);
         return APIResponse.generateResponse(true, "Berhasil buat program", newProgram);
     }
 
-    @PutMapping("/{programId}")
-    public Map<String, Object> updateFinishProgram(@PathVariable int programId) {
+    @Operation(summary = "Update the program", description = "Update status active of a program")
+    @PutMapping(value = "/{programId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    public Map<String, Object> updateFinishProgram(
+            @Parameter(description = "programId that used to query on database")
+            @PathVariable int programId) {
         Program updatedProgram = programService.updateProgram(programId);
         return APIResponse.generateResponse(true, "Program berhasil diupdate", updatedProgram);
     }
 
 
+    @Operation(summary = "Get all program", description = "Get all information about all program")
     @GetMapping()
     public Map<String, Object> getAllProgram() {
         List<AllProgramResponse> list = programService.getAllProgram().stream()
@@ -55,6 +66,7 @@ public class ProgramController {
         return APIResponse.generateResponse(true, "List Semua program untuk user ini", list);
     }
 
+    @Operation(summary = "Get program by id", description = "Get all information about program by id")
     @GetMapping("/{programId}")
     public Map<String, Object> getProgramById(@PathVariable int programId) {
         AllProgramResponse programResponse = mapToResponse(programService.getProgramById(programId));

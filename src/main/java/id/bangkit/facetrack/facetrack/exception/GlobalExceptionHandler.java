@@ -24,6 +24,15 @@ import java.util.Map;
 @Slf4j
 public class GlobalExceptionHandler {
 
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = EmailNotFoundException.class)
+    public Object handleEmailNotFoundException(EmailNotFoundException ex, HttpServletRequest request) {
+        Map<String, String> body = new HashMap<>();
+        body.put("errors", ex.getMessage());
+        return body;
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = SaveImageException.class)
     public Object handleSaveImageException(SaveImageException ex, HttpServletRequest request) {

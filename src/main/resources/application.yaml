@@ -3,8 +3,8 @@ spring:
     name: facetrack
   datasource:
     url: jdbc:postgresql://postgres:5432/facetrack
-    username: fallinnadim
-    password: Nadim456*-
+    username: jafar
+    password: jafar456*-
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
@@ -13,7 +13,17 @@ spring:
   servlet:
     multipart:
       max-file-size: 5000KB
-      
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: nadimwkwk@gmail.com
+    password: ajbpljtcklmqgfkf
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 jwt:
   key: 5i4gvIYPXXxmPXQ4zwumQSFwE6ID0ytg
   access-token-expiration: 7776000000

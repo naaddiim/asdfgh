@@ -4,6 +4,7 @@ import id.bangkit.facetrack.facetrack.dto.APIResponse;
 import id.bangkit.facetrack.facetrack.dto.CustomProblemResponse;
 import id.bangkit.facetrack.facetrack.entity.Problem;
 import id.bangkit.facetrack.facetrack.repository.ProblemRepository;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class ProblemController {
     private final ProblemRepository problemRepository;
 
+    @Operation(summary = "Get all Problem", description = "get all information about all problem")
     @GetMapping()
     public Map<String, Object> getAllProblem(){
         List<CustomProblemResponse> list = problemRepository.findAll().stream().map(this::mapToProblemResponse).toList();

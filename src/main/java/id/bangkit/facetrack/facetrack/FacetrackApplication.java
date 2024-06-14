@@ -43,7 +43,7 @@ public class FacetrackApplication implements CommandLineRunner {
 		storageService.init();
 		List<User> users = new ArrayList<>();
 		users.add(User.builder().nama("nadim").email("nadimwkwk@gmail.com").gender(Gender.MALE).noTelp("081252347779").password(passwordEncoder.encode("Nadim456*-")).role(Role.USER).build());
-		users.add(User.builder().nama("imelia").email("imelia@gmail.com").gender(Gender.FEMALE).noTelp("0811XXXXX").password(passwordEncoder.encode("Nadim456*-")).role(Role.USER).build());
+		users.add(User.builder().nama("jafar").email("jafar@gmail.com").gender(Gender.FEMALE).noTelp("0811XXXXX").password(passwordEncoder.encode("Nadim456*-")).role(Role.USER).build());
 		userRepository.saveAll(users);
 		List<Problem> problems = new ArrayList<>();
 		problems.add(Problem.builder().nama("Jerawat").deskripsi("Deskripsi 1").saran("Saran 1").build());

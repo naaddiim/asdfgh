@@ -3,6 +3,7 @@ package id.bangkit.facetrack.facetrack.controller;
 import id.bangkit.facetrack.facetrack.entity.FileInfo;
 import id.bangkit.facetrack.facetrack.entity.NumberOfProblems;
 import id.bangkit.facetrack.facetrack.service.FileStorageService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 public class FileController {
     private final FileStorageService fileStorageService;
 
+    @Operation(summary = "URL for static files", description = "URL endpoint to serve images")
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
     public ResponseEntity<InputStreamResource> getFile(@PathVariable String filename) {

@@ -1,37 +1,43 @@
 package id.bangkit.facetrack.facetrack.service.impl;
 
 import id.bangkit.facetrack.facetrack.config.JWTProperties;
+import id.bangkit.facetrack.facetrack.dto.ChangePasswordRequest;
+import id.bangkit.facetrack.facetrack.dto.ForgotPasswordRequest;
 import id.bangkit.facetrack.facetrack.dto.RegisterUserResponse;
 import id.bangkit.facetrack.facetrack.dto.UpdateUserRequest;
+import id.bangkit.facetrack.facetrack.entity.OTP;
 import id.bangkit.facetrack.facetrack.entity.User;
+import id.bangkit.facetrack.facetrack.exception.EmailNotFoundException;
 import id.bangkit.facetrack.facetrack.exception.EmailUnavailableException;
 import id.bangkit.facetrack.facetrack.exception.UserNotFoundException;
+import id.bangkit.facetrack.facetrack.repository.OtpRepository;
 import id.bangkit.facetrack.facetrack.repository.UserRepository;
 import id.bangkit.facetrack.facetrack.service.CustomUserDetailsService;
 import id.bangkit.facetrack.facetrack.service.JWTService;
 import id.bangkit.facetrack.facetrack.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final OtpRepository otpRepository;
     private final PasswordEncoder passwordEncoder;
-    private final AuthenticationManager authenticationManager;
     private final CustomUserDetailsService userDetailsService;
     private final JWTService jwtService;
     private final JWTProperties jwtProperties;
+    private final JavaMailSender javaMailSender;
 
 
     @Override
@@ -72,8 +78,85 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByBearerToken() {
-        String email = SecurityContextHolder.getContext().getAuthentication().getName();;
+        String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return userRepository.findByEmail(email);
+    }
+
+    @Override
+    @Async
+    public void sendEmail(SimpleMailMessage email) {
+        javaMailSender.send(email);
+    }
+
+    @Override
+    public String forgotPassword(ForgotPasswordRequest request) {
+        User found = userRepository.findByEmail(request.email());
+        if (found == null) {
+            throw new EmailNotFoundException("Email belum terdaftar");
+        }
+        String otp = generateOTP(4);
+        // save ke database
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.MINUTE, 15);
+        Date expiredDate = cal.getTime();
+        OTP newOtp = OTP.builder()
+                .otp(otp)
+                .email(found.getEmail())
+                .expiredAt(expiredDate)
+                .build();
+        OTP save = otpRepository.save(newOtp);
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(found.getEmail());
+        mailMessage.setSubject("lupa password ya");
+        mailMessage.setText("ini otp nya kak" + otp);
+        this.sendEmail(mailMessage);
+        return found.getEmail();
+    }
+
+    @Override
+    public boolean confirmOTP(ForgotPasswordRequest request) {
+        OTP found = otpRepository.findByEmailAndIsUsed(request.email(), false).orElseThrow(
+                () -> new EmailNotFoundException("Email tidak tepat")
+        );
+        if (!found.getOtp().equals(request.otp())) {
+            return false;
+        }
+        // check
+        boolean before = new Date().before(found.getExpiredAt());
+        if (!before) {
+            found.setUsed(true);
+            otpRepository.save(found);
+            return false;
+        }
+        found.setUsed(true);
+        otpRepository.save(found);
+        return true;
+    }
+
+    @Override
+    public User changePassword(ChangePasswordRequest request) {
+        User found = userRepository.findByEmail(request.email());
+        if (found == null) {
+            throw new EmailNotFoundException("Email belum terdaftar");
+        }
+        String newPassword = passwordEncoder.encode(request.newPassword());
+        found.setPassword(newPassword);
+        return userRepository.save(found);
+    }
+
+
+    private String generateOTP(int numOfCharacter) {
+        String otp = "";
+        Random random = new Random();
+        int min=1,max=9;
+        for (int i = 0; i < numOfCharacter; i++) {
+            int randomNumber = random.nextInt(max-min + 1) + min;
+            otp += String.valueOf(randomNumber);
+        }
+        return otp;
     }
 
 
