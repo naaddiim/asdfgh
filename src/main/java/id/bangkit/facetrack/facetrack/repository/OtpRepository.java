@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface OtpRepository extends JpaRepository<OTP, Integer> {
-    Optional<OTP> findByEmailAndIsUsed(String email, boolean isUsed);
+    Optional<OTP> findFirstByEmailAndIsUsedOrderByCreatedAtDesc(String email, boolean isUsed);
 }

@@ -110,20 +110,39 @@ public class UserServiceImpl implements UserService {
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(found.getEmail());
-        mailMessage.setSubject("lupa password ya");
-        mailMessage.setText("ini otp nya kak" + otp);
+        mailMessage.setSubject("[Facetrack] Please verify your OTP");
+        mailMessage.setText(generateMailBody(found.getEmail(), otp));
         this.sendEmail(mailMessage);
         return found.getEmail();
     }
 
+    private String generateMailBody(String email, String otp) {
+        return
+     """
+     Hey %s !
+          
+     Percobaan untuk mereset password telah dilakukan. Untuk melengkapi proses reset password, masukan kode OTP berikut pada program Facetrack.
+          
+     OTP kamu : %s
+          
+     Jika kamu tidak melakukan percobaan untuk mereset password, maka password anda sekarang sudah tidak aman. Silahkan hubungi Jafar melalui https://github.com/jafar144 untuk membuat laporan dan pengecekan keamanan akun anda.
+         
+     Terima Kasih,
+     The Facetrack Team
+     
+     """.formatted(email, otp);
+    }
+
     @Override
     public boolean confirmOTP(ForgotPasswordRequest request) {
-        OTP found = otpRepository.findByEmailAndIsUsed(request.email(), false).orElseThrow(
+        OTP found = otpRepository.findFirstByEmailAndIsUsedOrderByCreatedAtDesc(request.email(), false).orElseThrow(
                 () -> new EmailNotFoundException("Email tidak tepat")
         );
+        log.info("found : {}", found);
         if (!found.getOtp().equals(request.otp())) {
             return false;
         }
+
         // check
         boolean before = new Date().before(found.getExpiredAt());
         if (!before) {

@@ -26,4 +26,8 @@ public class OTP {
     @Column(name = "expired_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date expiredAt;
+    @Column(name = "created_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    @Builder.Default
+    private Date createdAt = new Date();
 }

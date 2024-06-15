@@ -40,6 +40,7 @@ public class FacetrackApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		storageService.deleteAll();
 		storageService.init();
 		List<User> users = new ArrayList<>();
 		users.add(User.builder().nama("nadim").email("nadimwkwk@gmail.com").gender(Gender.MALE).noTelp("081252347779").password(passwordEncoder.encode("Nadim456*-")).role(Role.USER).build());
