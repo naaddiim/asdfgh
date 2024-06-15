@@ -107,6 +107,19 @@
 					<to>
 						<image>registry.hub.docker.com/fallinnadim/${project.artifactId}:${project.version}</image>
 					</to>
+					<container>
+						<jvmFlags>
+							<jvmFlag>-Duser.timezone=Asia/Jakarta</jvmFlag>
+						</jvmFlags>
+						<environment>
+							<DB_USERNAME>${env.DB_USERNAME}</DB_USERNAME>
+							<DB_PASSWORD>${env.DB_PASSWORD}</DB_PASSWORD>
+							<DB_NAME>${env.DB_NAME}</DB_NAME>
+							<MAIL_HOST>${env.MAIL_HOST}</MAIL_HOST>
+							<MAIL_USERNAME>${env.MAIL_USERNAME}</MAIL_USERNAME>
+							<MAIL_PASSWORD>${env.MAIL_PASSWORD}</MAIL_PASSWORD>
+						</environment>
+					</container>
 				</configuration>
 			</plugin>
 		</plugins>
