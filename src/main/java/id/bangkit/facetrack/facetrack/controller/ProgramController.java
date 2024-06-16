@@ -48,7 +48,7 @@ public class ProgramController {
     }
 
     @Operation(summary = "Update the program", description = "Update status active of a program")
-    @PutMapping(value = "/{programId}", consumes = {MediaType.APPLICATION_JSON_VALUE})
+    @PutMapping(value = "/{programId}")
     public Map<String, Object> updateFinishProgram(
             @Parameter(description = "programId that used to query on database")
             @PathVariable int programId) {

@@ -2,9 +2,7 @@ spring:
   application:
     name: facetrack
   datasource:
-    url: jdbc:postgresql://postgres:5432/facetrack
-    username: jafar
-    password: jafar456*-
+    url: ${DB_URL}
     driver-class-name: org.postgresql.Driver
   jpa:
     show-sql: true
@@ -14,10 +12,10 @@ spring:
     multipart:
       max-file-size: 5000KB
   mail:
-    host: smtp.gmail.com
+    host: ${MAIL_HOST}
     port: 587
-    username: ajib.aiwa@gmail.com
-    password: zeufmiklqwlyjejk
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
     properties:
       mail:
         smtp:
