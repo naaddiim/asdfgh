@@ -35,6 +35,6 @@ public class Skincare {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "program_id")
-    @JsonBackReference(value = "skincare")
+    @JsonBackReference(value = "skincares")
     private Program program;
 }

@@ -1,15 +1,19 @@
 package id.bangkit.facetrack.facetrack.controller;
 
 import id.bangkit.facetrack.facetrack.dto.*;
+import id.bangkit.facetrack.facetrack.dto.request.ChangePasswordRequest;
+import id.bangkit.facetrack.facetrack.dto.request.CreateAndLoginUserRequest;
+import id.bangkit.facetrack.facetrack.dto.request.ForgotPasswordRequest;
+import id.bangkit.facetrack.facetrack.dto.request.UpdateUserRequest;
+import id.bangkit.facetrack.facetrack.dto.response.APIResponse;
+import id.bangkit.facetrack.facetrack.dto.response.AuthenticationResponse;
+import id.bangkit.facetrack.facetrack.dto.response.RegisterUserResponse;
+import id.bangkit.facetrack.facetrack.dto.response.UserResponse;
 import id.bangkit.facetrack.facetrack.entity.Role;
 import id.bangkit.facetrack.facetrack.entity.User;
 import id.bangkit.facetrack.facetrack.service.AuthenticationService;
 import id.bangkit.facetrack.facetrack.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

@@ -17,29 +17,18 @@ import java.util.List;
 @Builder
 @Table(name = "problems")
 public class Problem {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_problem")
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) @Column(name = "id_problem")
     private int problemId;
-
     @Column(name = "nama_problem")
     private String nama;
-
     private String deskripsi;
-
     private String saran;
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "problem", cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "problems")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "problem", cascade = CascadeType.ALL) @JsonManagedReference(value = "problems")
     private List<NumberOfProblems> numberOfProblems;
 
-    @Column(name = "created_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    @Builder.Default
+    @Column(name = "created_at") @Temporal(TemporalType.TIMESTAMP) @Builder.Default
     private Date createdAt = new Date();
 
-    @Column(name = "updated_at")
-    @Temporal(TemporalType.TIMESTAMP)
-    @Builder.Default
+    @Column(name = "updated_at") @Temporal(TemporalType.TIMESTAMP) @Builder.Default
     private Date updatedAt = new Date();
 }

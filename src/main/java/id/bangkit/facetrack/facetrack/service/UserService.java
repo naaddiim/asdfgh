@@ -1,6 +1,10 @@
 package id.bangkit.facetrack.facetrack.service;
 
 import id.bangkit.facetrack.facetrack.dto.*;
+import id.bangkit.facetrack.facetrack.dto.request.ChangePasswordRequest;
+import id.bangkit.facetrack.facetrack.dto.request.ForgotPasswordRequest;
+import id.bangkit.facetrack.facetrack.dto.request.UpdateUserRequest;
+import id.bangkit.facetrack.facetrack.dto.response.RegisterUserResponse;
 import id.bangkit.facetrack.facetrack.entity.User;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.scheduling.annotation.Async;

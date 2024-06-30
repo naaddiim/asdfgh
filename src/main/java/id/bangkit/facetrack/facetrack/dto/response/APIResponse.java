@@ -1,4 +1,4 @@
-package id.bangkit.facetrack.facetrack.dto;
+package id.bangkit.facetrack.facetrack.dto.response;
 
 import org.springframework.http.HttpStatus;
 

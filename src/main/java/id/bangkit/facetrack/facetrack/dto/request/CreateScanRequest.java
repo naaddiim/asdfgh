@@ -1,4 +1,4 @@
-package id.bangkit.facetrack.facetrack.dto;
+package id.bangkit.facetrack.facetrack.dto.request;
 
 import id.bangkit.facetrack.facetrack.entity.NumberOfProblems;
 import jakarta.validation.constraints.Min;

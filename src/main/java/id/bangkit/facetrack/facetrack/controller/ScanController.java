@@ -1,18 +1,13 @@
 package id.bangkit.facetrack.facetrack.controller;
 
-import id.bangkit.facetrack.facetrack.dto.APIResponse;
-import id.bangkit.facetrack.facetrack.dto.CreateProgramRequest;
-import id.bangkit.facetrack.facetrack.dto.CreateScanRequest;
-import id.bangkit.facetrack.facetrack.entity.Program;
+import id.bangkit.facetrack.facetrack.dto.response.APIResponse;
 import id.bangkit.facetrack.facetrack.entity.Scan;
 import id.bangkit.facetrack.facetrack.service.ScanService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

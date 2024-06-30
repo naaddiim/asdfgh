@@ -37,7 +37,7 @@ public class Scan {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "program_id")
-    @JsonBackReference(value = "scan")
+    @JsonBackReference(value = "scans")
     private Program program;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "scan", cascade = CascadeType.ALL)

@@ -1,4 +1,4 @@
-package id.bangkit.facetrack.facetrack.dto;
+package id.bangkit.facetrack.facetrack.dto.response;
 
 import id.bangkit.facetrack.facetrack.entity.Gender;
 import id.bangkit.facetrack.facetrack.entity.Role;

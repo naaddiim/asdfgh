@@ -1,9 +1,8 @@
 package id.bangkit.facetrack.facetrack.service.impl;
 
 import id.bangkit.facetrack.facetrack.controller.FileController;
-import id.bangkit.facetrack.facetrack.dto.CreateScanRequest;
+import id.bangkit.facetrack.facetrack.dto.request.CreateScanRequest;
 import id.bangkit.facetrack.facetrack.entity.*;
-import id.bangkit.facetrack.facetrack.exception.ProblemNotFoundException;
 import id.bangkit.facetrack.facetrack.exception.ProgramNotFoundException;
 import id.bangkit.facetrack.facetrack.exception.SaveImageException;
 import id.bangkit.facetrack.facetrack.repository.ProblemRepository;
@@ -13,10 +12,8 @@ import id.bangkit.facetrack.facetrack.service.FileStorageService;
 import id.bangkit.facetrack.facetrack.service.ScanService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import java.util.ArrayList;

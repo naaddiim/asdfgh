@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.2.6</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>id.bangkit.facetrack</groupId>
 	<artifactId>facetrack</artifactId>
@@ -17,6 +18,11 @@
 		<java.version>21</java.version>
 	</properties>
 	<dependencies>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>3.2.0</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.cloud.sql</groupId>
 			<artifactId>postgres-socket-factory</artifactId>
@@ -110,18 +116,20 @@
 						<image>eclipse-temurin:21-jdk-ubi9-minimal</image>
 					</from>
 					<to>
-<!--						<image>gcr.io/exploringgcp-426503/${project.artifactId}:${project.version}</image>-->
-						<image>registry.hub.docker.com/fallinnadim/${project.artifactId}:${project.version}</image>
+						<!--
+						<image>gcr.io/exploringgcp-426503/${project.artifactId}:${project.version}</image>-->
+						<image>
+							registry.hub.docker.com/fallinnadim/${project.artifactId}:${project.version}</image>
 					</to>
 					<container>
 						<jvmFlags>
 							<jvmFlag>-Duser.timezone=Asia/Jakarta</jvmFlag>
 						</jvmFlags>
 						<environment>
-<!--							<DB_URL>${env.DB_URL}</DB_URL>-->
-<!--							<MAIL_HOST>${env.MAIL_HOST}</MAIL_HOST>-->
-<!--							<MAIL_USERNAME>${env.MAIL_USERNAME}</MAIL_USERNAME>-->
-<!--							<MAIL_PASSWORD>${env.MAIL_PASSWORD}</MAIL_PASSWORD>-->
+							<!--							<DB_URL>${env.DB_URL}</DB_URL>-->
+							<!--							<MAIL_HOST>${env.MAIL_HOST}</MAIL_HOST>-->
+							<!--							<MAIL_USERNAME>${env.MAIL_USERNAME}</MAIL_USERNAME>-->
+							<!--							<MAIL_PASSWORD>${env.MAIL_PASSWORD}</MAIL_PASSWORD>-->
 						</environment>
 					</container>
 				</configuration>

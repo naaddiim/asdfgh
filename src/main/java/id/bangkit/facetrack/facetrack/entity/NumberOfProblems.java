@@ -23,12 +23,12 @@ public class NumberOfProblems {
 
     private int jumlah;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "problem_id")
     @JsonBackReference(value = "problems")
     private Problem problem;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "scan_id")
     @JsonBackReference(value = "number-of-problems")
     private Scan scan;

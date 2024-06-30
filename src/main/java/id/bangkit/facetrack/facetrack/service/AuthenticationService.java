@@ -1,8 +1,8 @@
 package id.bangkit.facetrack.facetrack.service;
 
 import id.bangkit.facetrack.facetrack.config.JWTProperties;
-import id.bangkit.facetrack.facetrack.dto.CreateAndLoginUserRequest;
-import id.bangkit.facetrack.facetrack.dto.AuthenticationResponse;
+import id.bangkit.facetrack.facetrack.dto.request.CreateAndLoginUserRequest;
+import id.bangkit.facetrack.facetrack.dto.response.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

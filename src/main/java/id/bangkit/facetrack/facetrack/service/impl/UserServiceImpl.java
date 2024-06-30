@@ -1,10 +1,10 @@
 package id.bangkit.facetrack.facetrack.service.impl;
 
 import id.bangkit.facetrack.facetrack.config.JWTProperties;
-import id.bangkit.facetrack.facetrack.dto.ChangePasswordRequest;
-import id.bangkit.facetrack.facetrack.dto.ForgotPasswordRequest;
-import id.bangkit.facetrack.facetrack.dto.RegisterUserResponse;
-import id.bangkit.facetrack.facetrack.dto.UpdateUserRequest;
+import id.bangkit.facetrack.facetrack.dto.request.ChangePasswordRequest;
+import id.bangkit.facetrack.facetrack.dto.request.ForgotPasswordRequest;
+import id.bangkit.facetrack.facetrack.dto.request.UpdateUserRequest;
+import id.bangkit.facetrack.facetrack.dto.response.RegisterUserResponse;
 import id.bangkit.facetrack.facetrack.entity.OTP;
 import id.bangkit.facetrack.facetrack.entity.User;
 import id.bangkit.facetrack.facetrack.exception.EmailNotFoundException;

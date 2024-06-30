@@ -10,7 +10,7 @@ import id.bangkit.facetrack.facetrack.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import id.bangkit.facetrack.facetrack.dto.CreateProgramRequest;
+import id.bangkit.facetrack.facetrack.dto.request.CreateProgramRequest;
 import id.bangkit.facetrack.facetrack.entity.Program;
 import id.bangkit.facetrack.facetrack.entity.Skincare;
 import id.bangkit.facetrack.facetrack.repository.ProgramRepository;
@@ -35,7 +35,7 @@ public class ProgramServiceImpl implements ProgramService {
             skincare.setProgram(newProgram);
             skincares.add(skincare);
         });
-        newProgram.setSkincare(skincares);
+        newProgram.setSkincares(skincares);
         newProgram.setUser(currentUser);
         return programRepository.save(newProgram);
     }

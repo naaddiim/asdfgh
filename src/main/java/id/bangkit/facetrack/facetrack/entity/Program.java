@@ -56,11 +56,11 @@ public class Program {
     private Date doneAt = null;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "program", cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "skincare")
-    private List<Skincare> skincare;
+    @JsonManagedReference(value = "skincares")
+    private List<Skincare> skincares;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "program", cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "scan")
-    private List<Scan> scan;
+    @JsonManagedReference(value = "scans")
+    private List<Scan> scans;
 
 }

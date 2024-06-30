@@ -1,4 +1,4 @@
-package id.bangkit.facetrack.facetrack.dto;
+package id.bangkit.facetrack.facetrack.dto.response;
 
 import id.bangkit.facetrack.facetrack.entity.Gender;
 import id.bangkit.facetrack.facetrack.entity.Program;
@@ -6,12 +6,12 @@ import id.bangkit.facetrack.facetrack.entity.Role;
 
 import java.util.List;
 
-public record UserResponse(
-        int id,
+public record CustomUserResponse(
+        int userId,
         String email,
         String nama,
         Gender gender,
         String noTelp,
-        Role role,
-        List<Program> program) {
+        Role role
+) {
 }

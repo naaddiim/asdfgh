@@ -1,7 +1,7 @@
 package id.bangkit.facetrack.facetrack.service;
 
 
-import id.bangkit.facetrack.facetrack.dto.CreateScanRequest;
+import id.bangkit.facetrack.facetrack.dto.request.CreateScanRequest;
 import id.bangkit.facetrack.facetrack.entity.Program;
 import id.bangkit.facetrack.facetrack.entity.Scan;
 import org.springframework.web.multipart.MultipartFile;
