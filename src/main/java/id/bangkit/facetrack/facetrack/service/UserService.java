@@ -1,33 +1,27 @@
 package id.bangkit.facetrack.facetrack.service;
 
 import id.bangkit.facetrack.facetrack.dto.*;
-import id.bangkit.facetrack.facetrack.dto.request.ChangePasswordRequest;
-import id.bangkit.facetrack.facetrack.dto.request.ForgotPasswordRequest;
-import id.bangkit.facetrack.facetrack.dto.request.UpdateUserRequest;
-import id.bangkit.facetrack.facetrack.dto.response.RegisterUserResponse;
-import id.bangkit.facetrack.facetrack.entity.User;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.scheduling.annotation.Async;
+import id.bangkit.facetrack.facetrack.dto.request.users.ChangePasswordRequest;
+import id.bangkit.facetrack.facetrack.dto.request.users.CreateAndLoginUserRequest;
+import id.bangkit.facetrack.facetrack.dto.request.users.ForgotPasswordRequest;
+import id.bangkit.facetrack.facetrack.dto.request.users.UpdateUserRequest;
 
-import java.util.List;
+import org.springframework.mail.SimpleMailMessage;
 
 public interface UserService {
-    RegisterUserResponse createUser(User newUser);
+    NewUserDTO createUser(CreateAndLoginUserRequest request);
 
-    User findUserById(int userId);
+    UserDTO findUserById(int userId);
 
-    List<User> findAll();
+    UserDTO updateUser(UpdateUserRequest request, int userId);
 
-    User updateUser(UpdateUserRequest request, int userId);
-
-    User findUserByBearerToken();
+    UserDTO findUserByBearerToken();
 
     void sendEmail(SimpleMailMessage email);
 
     String forgotPassword(ForgotPasswordRequest email);
 
-
     boolean confirmOTP(ForgotPasswordRequest request);
 
-    User changePassword(ChangePasswordRequest request);
+    UserDTO changePassword(ChangePasswordRequest request);
 }

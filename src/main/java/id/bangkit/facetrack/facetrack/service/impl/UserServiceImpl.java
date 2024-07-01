@@ -1,15 +1,18 @@
 package id.bangkit.facetrack.facetrack.service.impl;
 
 import id.bangkit.facetrack.facetrack.config.JWTProperties;
-import id.bangkit.facetrack.facetrack.dto.request.ChangePasswordRequest;
-import id.bangkit.facetrack.facetrack.dto.request.ForgotPasswordRequest;
-import id.bangkit.facetrack.facetrack.dto.request.UpdateUserRequest;
-import id.bangkit.facetrack.facetrack.dto.response.RegisterUserResponse;
+import id.bangkit.facetrack.facetrack.dto.NewUserDTO;
+import id.bangkit.facetrack.facetrack.dto.UserDTO;
+import id.bangkit.facetrack.facetrack.dto.request.users.ChangePasswordRequest;
+import id.bangkit.facetrack.facetrack.dto.request.users.CreateAndLoginUserRequest;
+import id.bangkit.facetrack.facetrack.dto.request.users.ForgotPasswordRequest;
+import id.bangkit.facetrack.facetrack.dto.request.users.UpdateUserRequest;
 import id.bangkit.facetrack.facetrack.entity.OTP;
 import id.bangkit.facetrack.facetrack.entity.User;
 import id.bangkit.facetrack.facetrack.exception.EmailNotFoundException;
 import id.bangkit.facetrack.facetrack.exception.EmailUnavailableException;
 import id.bangkit.facetrack.facetrack.exception.UserNotFoundException;
+import id.bangkit.facetrack.facetrack.mappers.Mapper;
 import id.bangkit.facetrack.facetrack.repository.OtpRepository;
 import id.bangkit.facetrack.facetrack.repository.UserRepository;
 import id.bangkit.facetrack.facetrack.service.CustomUserDetailsService;
@@ -38,48 +41,47 @@ public class UserServiceImpl implements UserService {
     private final JWTService jwtService;
     private final JWTProperties jwtProperties;
     private final JavaMailSender javaMailSender;
-
+    private final Mapper<User, UserDTO> userMapper;
 
     @Override
-    public RegisterUserResponse createUser(User newUser) {
-        User found = userRepository.findByEmail(newUser.getEmail());
+    public NewUserDTO createUser(CreateAndLoginUserRequest request) {
+        User found = userRepository.findByEmail(request.email());
         if (found != null) {
             throw new EmailUnavailableException("This email cannot be used");
         }
+        User newUser = User.builder()
+                .email(request.email())
+                .password(request.password())
+                .build();
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         User createdUser = userRepository.save(newUser);
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(createdUser.getEmail());
         String accessToken = generateAccessToken(userDetails);
-        return new RegisterUserResponse(createdUser.getUserId(), createdUser.getEmail(), accessToken);
+        return new NewUserDTO(createdUser.getUserId(), createdUser.getEmail(), accessToken);
     }
 
     @Override
-    public User findUserById(int userId) {
-        return userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("cannot find user"));
+    public UserDTO findUserById(int userId) {
+        return userMapper.mapTo(userRepository.findById(userId)
+                .orElseThrow(
+                        () -> new UserNotFoundException("cannot find user")));
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepository.findAll();
-    }
-
-    @Override
-    public User updateUser(UpdateUserRequest request, int userId) {
+    public UserDTO updateUser(UpdateUserRequest request, int userId) {
         User updatedUser = userRepository.findById(userId).orElseThrow(
-                () -> new UserNotFoundException("cannot find user")
-        );
+                () -> new UserNotFoundException("cannot find user"));
         updatedUser.setNama(request.nama());
         updatedUser.setNoTelp(request.noTelp());
         updatedUser.setGender(request.gender());
-        return userRepository.save(updatedUser);
+        return userMapper.mapTo(userRepository.save(updatedUser));
     }
 
     @Override
-    public User findUserByBearerToken() {
+    public UserDTO findUserByBearerToken() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(email);
+        return userMapper.mapTo(userRepository.findByEmail(email));
     }
 
     @Override
@@ -106,7 +108,7 @@ public class UserServiceImpl implements UserService {
                 .email(found.getEmail())
                 .expiredAt(expiredDate)
                 .build();
-        OTP save = otpRepository.save(newOtp);
+        otpRepository.save(newOtp);
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
         mailMessage.setTo(found.getEmail());
@@ -117,27 +119,26 @@ public class UserServiceImpl implements UserService {
     }
 
     private String generateMailBody(String email, String otp) {
-        return
-     """
-     Hey %s !
-          
-     Percobaan untuk mereset password telah dilakukan. Untuk melengkapi proses reset password, masukan kode OTP berikut pada program Facetrack.
-          
-     OTP kamu : %s
-          
-     Jika kamu tidak melakukan percobaan untuk mereset password, maka password anda sekarang sudah tidak aman. Silahkan hubungi Jafar melalui https://github.com/jafar144 untuk membuat laporan dan pengecekan keamanan akun anda.
-         
-     Terima Kasih,
-     The Facetrack Team
-     
-     """.formatted(email, otp);
+        return """
+                Hey %s !
+
+                Percobaan untuk mereset password telah dilakukan. Untuk melengkapi proses reset password, masukan kode OTP berikut pada program Facetrack.
+
+                OTP kamu : %s
+
+                Jika kamu tidak melakukan percobaan untuk mereset password, maka password anda sekarang sudah tidak aman. Silahkan hubungi Jafar melalui https://github.com/jafar144 untuk membuat laporan dan pengecekan keamanan akun anda.
+
+                Terima Kasih,
+                The Facetrack Team
+
+                """
+                .formatted(email, otp);
     }
 
     @Override
     public boolean confirmOTP(ForgotPasswordRequest request) {
         OTP found = otpRepository.findFirstByEmailAndIsUsedOrderByCreatedAtDesc(request.email(), false).orElseThrow(
-                () -> new EmailNotFoundException("Email tidak tepat")
-        );
+                () -> new EmailNotFoundException("Email tidak tepat"));
         log.info("found : {}", found);
         if (!found.getOtp().equals(request.otp())) {
             return false;
@@ -156,28 +157,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changePassword(ChangePasswordRequest request) {
+    public UserDTO changePassword(ChangePasswordRequest request) {
         User found = userRepository.findByEmail(request.email());
         if (found == null) {
             throw new EmailNotFoundException("Email belum terdaftar");
         }
         String newPassword = passwordEncoder.encode(request.newPassword());
         found.setPassword(newPassword);
-        return userRepository.save(found);
+        return userMapper.mapTo(userRepository.save(found));
     }
-
 
     private String generateOTP(int numOfCharacter) {
         String otp = "";
         Random random = new Random();
-        int min=1,max=9;
+        int min = 1, max = 9;
         for (int i = 0; i < numOfCharacter; i++) {
-            int randomNumber = random.nextInt(max-min + 1) + min;
+            int randomNumber = random.nextInt(max - min + 1) + min;
             otp += String.valueOf(randomNumber);
         }
         return otp;
     }
-
 
     private String generateAccessToken(UserDetails userDetails) {
         return jwtService.generateToken(userDetails,

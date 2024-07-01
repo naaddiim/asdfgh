@@ -1,4 +1,4 @@
-package id.bangkit.facetrack.facetrack.dto.request;
+package id.bangkit.facetrack.facetrack.dto.request.users;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

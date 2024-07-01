@@ -2,7 +2,7 @@ package id.bangkit.facetrack.facetrack.controller;
 
 import id.bangkit.facetrack.facetrack.dto.ProblemDTO;
 import id.bangkit.facetrack.facetrack.dto.response.APIResponse;
-import id.bangkit.facetrack.facetrack.dto.response.AllProblemResponse;
+import id.bangkit.facetrack.facetrack.dto.response.problems.AllProblemResponse;
 import id.bangkit.facetrack.facetrack.entity.Problem;
 import id.bangkit.facetrack.facetrack.repository.ProblemRepository;
 import id.bangkit.facetrack.facetrack.service.ProblemService;

@@ -1,8 +1,8 @@
 package id.bangkit.facetrack.facetrack.service;
 
 import id.bangkit.facetrack.facetrack.config.JWTProperties;
-import id.bangkit.facetrack.facetrack.dto.request.CreateAndLoginUserRequest;
-import id.bangkit.facetrack.facetrack.dto.response.AuthenticationResponse;
+import id.bangkit.facetrack.facetrack.dto.request.users.CreateAndLoginUserRequest;
+import id.bangkit.facetrack.facetrack.dto.response.users.AuthenticationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,16 +22,14 @@ public class AuthenticationService {
     private final JWTService jwtService;
     private final JWTProperties jwtProperties;
 
-    public AuthenticationResponse authentication(CreateAndLoginUserRequest authRequest) {
+    public String authentication(CreateAndLoginUserRequest authRequest) {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.email(), authRequest.password()));
         if (!authenticate.isAuthenticated()) {
             throw new UsernameNotFoundException("invalid user request !");
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.email());
-        String accessToken = generateAccessToken(userDetails);
-
-        return new AuthenticationResponse(accessToken);
+        return generateAccessToken(userDetails);
     }
 
     private String generateAccessToken(UserDetails userDetails) {

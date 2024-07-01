@@ -1,4 +1,4 @@
-package id.bangkit.facetrack.facetrack.dto.response;
+package id.bangkit.facetrack.facetrack.dto.response.problems;
 
 import java.util.List;
 
