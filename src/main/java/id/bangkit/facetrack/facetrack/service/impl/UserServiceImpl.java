@@ -11,6 +11,8 @@ import id.bangkit.facetrack.facetrack.entity.OTP;
 import id.bangkit.facetrack.facetrack.entity.User;
 import id.bangkit.facetrack.facetrack.exception.EmailNotFoundException;
 import id.bangkit.facetrack.facetrack.exception.EmailUnavailableException;
+import id.bangkit.facetrack.facetrack.exception.ExpiredOTPException;
+import id.bangkit.facetrack.facetrack.exception.InvalidOTPException;
 import id.bangkit.facetrack.facetrack.exception.UserNotFoundException;
 import id.bangkit.facetrack.facetrack.mappers.Mapper;
 import id.bangkit.facetrack.facetrack.repository.OtpRepository;
@@ -19,7 +21,6 @@ import id.bangkit.facetrack.facetrack.service.CustomUserDetailsService;
 import id.bangkit.facetrack.facetrack.service.JWTService;
 import id.bangkit.facetrack.facetrack.service.UserService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.scheduling.annotation.Async;
@@ -32,7 +33,6 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final OtpRepository otpRepository;
@@ -136,12 +136,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean confirmOTP(ForgotPasswordRequest request) {
+    public void confirmOTP(ForgotPasswordRequest request) {
         OTP found = otpRepository.findFirstByEmailAndIsUsedOrderByCreatedAtDesc(request.email(), false).orElseThrow(
                 () -> new EmailNotFoundException("Email tidak tepat"));
-        log.info("found : {}", found);
         if (!found.getOtp().equals(request.otp())) {
-            return false;
+            throw new InvalidOTPException("OTP tidak tepat");
         }
 
         // check
@@ -149,11 +148,10 @@ public class UserServiceImpl implements UserService {
         if (!before) {
             found.setUsed(true);
             otpRepository.save(found);
-            return false;
+            throw new ExpiredOTPException("OTP sudah tidak bisa dipakai");
         }
         found.setUsed(true);
         otpRepository.save(found);
-        return true;
     }
 
     @Override

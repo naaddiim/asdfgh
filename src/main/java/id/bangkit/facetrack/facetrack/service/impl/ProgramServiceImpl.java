@@ -6,6 +6,7 @@ import java.util.List;
 
 import id.bangkit.facetrack.facetrack.entity.User;
 import id.bangkit.facetrack.facetrack.exception.ProgramNotFoundException;
+import id.bangkit.facetrack.facetrack.exception.UnauthorizedNewProgramException;
 import id.bangkit.facetrack.facetrack.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -16,11 +17,9 @@ import id.bangkit.facetrack.facetrack.entity.Skincare;
 import id.bangkit.facetrack.facetrack.repository.ProgramRepository;
 import id.bangkit.facetrack.facetrack.service.ProgramService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class ProgramServiceImpl implements ProgramService {
     private final ProgramRepository programRepository;
     private final UserRepository userRepository;
@@ -66,12 +65,14 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public boolean checkUserAvailability() {
+    public void checkUserAvailability() {
         User currentUser = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         List<Program> list = programRepository.findByUserOrderByCreatedAtAsc(currentUser).stream()
                 .filter(element -> element.isActive() == true)
                 .toList();
-        return list.size() == 0;
+        if(list.size() == 0) {
+            throw new UnauthorizedNewProgramException("tidak bisa membuat program baru");
+        }
     }
 
 }

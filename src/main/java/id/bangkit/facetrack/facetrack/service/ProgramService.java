@@ -15,5 +15,5 @@ public interface ProgramService {
 
     Program updateProgram(int programId);
 
-    boolean checkUserAvailability();
+    void checkUserAvailability();
 }

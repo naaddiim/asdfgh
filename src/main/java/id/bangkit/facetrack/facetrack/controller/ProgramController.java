@@ -5,12 +5,15 @@ import id.bangkit.facetrack.facetrack.dto.response.APIResponse;
 import id.bangkit.facetrack.facetrack.entity.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import id.bangkit.facetrack.facetrack.service.ProgramService;
@@ -28,14 +31,15 @@ public class ProgramController {
     private final ProgramService programService;
 
     @Operation(summary = "Check User availability", description = "check wether the user can add a new program or not")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User can create new program", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = CheckAvailabilityResponse.class))
+            }),
+    })
     @GetMapping("/availability")
-    public ResponseEntity<Map<String, Object>> canUserPostNewProgram() {
-        boolean checkResult = programService.checkUserAvailability();
-        if (!checkResult) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                    .body(APIResponse.generateResponse(checkResult, "Tidak Boleh membuat program baru", null));
-        }
-        return ResponseEntity.ok().body(APIResponse.generateResponse(checkResult, "Boleh membuat program baru", null));
+    public CheckAvailabilityResponse canUserPostNewProgram() {
+        programService.checkUserAvailability();
+        return new CheckAvailabilityResponse(true, "Boleh membuat program baru");
     }
 
     @Operation(summary = "Create a new program", description = "Create a new program with skincare information")

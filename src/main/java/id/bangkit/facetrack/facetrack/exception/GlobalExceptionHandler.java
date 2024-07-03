@@ -6,24 +6,40 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.InsufficientAuthenticationException;
-import org.springframework.security.authentication.ProviderNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
+import id.bangkit.facetrack.facetrack.dto.response.errors.ErrorResponse;
+import id.bangkit.facetrack.facetrack.dto.response.users.ConfirmOTPResponse;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestControllerAdvice
-@Slf4j
 public class GlobalExceptionHandler {
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(value = InvalidOTPException.class)
+    public ErrorResponse handleInvalidOTPException(InvalidOTPException ex, HttpServletRequest request) {
+        return new ErrorResponse(false, ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(value = ExpiredOTPException.class)
+    public ErrorResponse handleExpiredOTPException(ExpiredOTPException ex, HttpServletRequest request) {
+        return new ErrorResponse(false, ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(value = UnauthorizedNewProgramException.class)
+    public ErrorResponse handleUnauthorizedNewProgramException(UnauthorizedNewProgramException ex, HttpServletRequest request) {
+        return new ErrorResponse(false, ex.getMessage());
+    }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = EmailNotFoundException.class)

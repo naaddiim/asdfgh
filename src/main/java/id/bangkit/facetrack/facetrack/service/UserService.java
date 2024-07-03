@@ -21,7 +21,7 @@ public interface UserService {
 
     String forgotPassword(ForgotPasswordRequest email);
 
-    boolean confirmOTP(ForgotPasswordRequest request);
+    void confirmOTP(ForgotPasswordRequest request);
 
     UserDTO changePassword(ChangePasswordRequest request);
 }
