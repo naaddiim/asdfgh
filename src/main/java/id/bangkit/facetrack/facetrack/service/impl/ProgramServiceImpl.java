@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import id.bangkit.facetrack.facetrack.dto.ProgramDTO;
+import id.bangkit.facetrack.facetrack.dto.ProgramDetailDTO;
 import id.bangkit.facetrack.facetrack.dto.request.CreateProgramRequest;
 import id.bangkit.facetrack.facetrack.entity.Program;
 import id.bangkit.facetrack.facetrack.entity.Skincare;
@@ -26,6 +27,7 @@ public class ProgramServiceImpl implements ProgramService {
     private final ProgramRepository programRepository;
     private final UserRepository userRepository;
     private final Mapper<Program, ProgramDTO> programMapper;
+    private final Mapper<Program, ProgramDetailDTO> programDetailMapper;
 
     @Override
     public ProgramDTO createProgram(CreateProgramRequest request) {
@@ -51,8 +53,8 @@ public class ProgramServiceImpl implements ProgramService {
     }
 
     @Override
-    public ProgramDTO getProgramById(int programId) {
-        return programMapper.mapTo(programRepository.findById(programId)
+    public ProgramDetailDTO getProgramById(int programId) {
+        return programDetailMapper.mapTo(programRepository.findById(programId)
                 .orElseThrow(
                         () -> new ProgramNotFoundException("program not found")));
     }

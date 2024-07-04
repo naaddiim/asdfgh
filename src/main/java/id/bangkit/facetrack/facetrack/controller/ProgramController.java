@@ -1,6 +1,7 @@
 package id.bangkit.facetrack.facetrack.controller;
 
 import id.bangkit.facetrack.facetrack.dto.ProgramDTO;
+import id.bangkit.facetrack.facetrack.dto.ProgramDetailDTO;
 import id.bangkit.facetrack.facetrack.dto.request.CreateProgramRequest;
 import id.bangkit.facetrack.facetrack.dto.response.programs.AllProgramResponse;
 import id.bangkit.facetrack.facetrack.dto.response.programs.NewProgramResponse;
@@ -87,7 +88,7 @@ public class ProgramController {
     @Operation(summary = "Get program by id", description = "Get all information about program by id")
     @GetMapping("/{programId}")
     public ProgramDetailResponse getProgramById(@PathVariable int programId) {
-        ProgramDTO programResponse = programService.getProgramById(programId);
+        ProgramDetailDTO programResponse = programService.getProgramById(programId);
         return new ProgramDetailResponse(true, "List Semua program untuk user ini", programResponse);
     }
 }
