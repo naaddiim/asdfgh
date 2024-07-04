@@ -2,18 +2,18 @@ package id.bangkit.facetrack.facetrack.service;
 
 import java.util.List;
 
+import id.bangkit.facetrack.facetrack.dto.ProgramDTO;
 import id.bangkit.facetrack.facetrack.dto.request.CreateProgramRequest;
-import id.bangkit.facetrack.facetrack.entity.Program;
 
 public interface ProgramService {
 
-    Program createProgram(CreateProgramRequest request);
+    ProgramDTO createProgram(CreateProgramRequest request);
 
-    List<Program> getAllProgram();
+    List<ProgramDTO> getAllProgram();
 
-    Program getProgramById(int programId);
+    ProgramDTO getProgramById(int programId);
 
-    Program updateProgram(int programId);
+    ProgramDTO updateProgram(int programId);
 
     void checkUserAvailability();
 }

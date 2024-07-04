@@ -7,10 +7,12 @@ import java.util.List;
 import id.bangkit.facetrack.facetrack.entity.User;
 import id.bangkit.facetrack.facetrack.exception.ProgramNotFoundException;
 import id.bangkit.facetrack.facetrack.exception.UnauthorizedNewProgramException;
+import id.bangkit.facetrack.facetrack.mappers.Mapper;
 import id.bangkit.facetrack.facetrack.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import id.bangkit.facetrack.facetrack.dto.ProgramDTO;
 import id.bangkit.facetrack.facetrack.dto.request.CreateProgramRequest;
 import id.bangkit.facetrack.facetrack.entity.Program;
 import id.bangkit.facetrack.facetrack.entity.Skincare;
@@ -23,9 +25,10 @@ import lombok.RequiredArgsConstructor;
 public class ProgramServiceImpl implements ProgramService {
     private final ProgramRepository programRepository;
     private final UserRepository userRepository;
+    private final Mapper<Program, ProgramDTO> programMapper;
 
     @Override
-    public Program createProgram(CreateProgramRequest request) {
+    public ProgramDTO createProgram(CreateProgramRequest request) {
         Program newProgram = Program.builder().namaProgram(request.namaProgram()).build();
         User currentUser = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         List<Skincare> skincares = new ArrayList<>();
@@ -36,32 +39,33 @@ public class ProgramServiceImpl implements ProgramService {
         });
         newProgram.setSkincares(skincares);
         newProgram.setUser(currentUser);
-        return programRepository.save(newProgram);
+        return programMapper.mapTo(programRepository.save(newProgram));
     }
 
     @Override
-    public List<Program> getAllProgram() {
+    public List<ProgramDTO> getAllProgram() {
         User currentUser = userRepository.findByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
-        return programRepository.findByUserOrderByCreatedAtAsc(currentUser);
+        return programRepository.findByUserOrderByCreatedAtAsc(currentUser).stream()
+                .map(programMapper::mapTo)
+                .toList();
     }
 
     @Override
-    public Program getProgramById(int programId) {
-        return programRepository.findById(programId).orElseThrow(
-                () -> new ProgramNotFoundException("program not found")
-        );
+    public ProgramDTO getProgramById(int programId) {
+        return programMapper.mapTo(programRepository.findById(programId)
+                .orElseThrow(
+                        () -> new ProgramNotFoundException("program not found")));
     }
 
     @Override
-    public Program updateProgram(int programId) {
+    public ProgramDTO updateProgram(int programId) {
         Program program = programRepository.findById(programId).orElseThrow(
-                () -> new ProgramNotFoundException("Program not found")
-        );
+                () -> new ProgramNotFoundException("Program not found"));
         program.setActive(false);
         program.setDone(true);
         program.setUpdatedAt(new Date());
         program.setDoneAt(new Date());
-        return programRepository.save(program);
+        return programMapper.mapTo(programRepository.save(program));
     }
 
     @Override
@@ -70,7 +74,7 @@ public class ProgramServiceImpl implements ProgramService {
         List<Program> list = programRepository.findByUserOrderByCreatedAtAsc(currentUser).stream()
                 .filter(element -> element.isActive() == true)
                 .toList();
-        if(list.size() == 0) {
+        if (list.size() == 0) {
             throw new UnauthorizedNewProgramException("tidak bisa membuat program baru");
         }
     }

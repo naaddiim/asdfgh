@@ -1,8 +1,11 @@
 package id.bangkit.facetrack.facetrack.controller;
 
+import id.bangkit.facetrack.facetrack.dto.ProgramDTO;
 import id.bangkit.facetrack.facetrack.dto.request.CreateProgramRequest;
-import id.bangkit.facetrack.facetrack.dto.response.APIResponse;
-import id.bangkit.facetrack.facetrack.entity.*;
+import id.bangkit.facetrack.facetrack.dto.response.programs.AllProgramResponse;
+import id.bangkit.facetrack.facetrack.dto.response.programs.NewProgramResponse;
+import id.bangkit.facetrack.facetrack.dto.response.programs.ProgramDetailResponse;
+import id.bangkit.facetrack.facetrack.dto.response.programs.UpdateProgramResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -20,7 +23,6 @@ import id.bangkit.facetrack.facetrack.service.ProgramService;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/programs")
@@ -43,33 +45,49 @@ public class ProgramController {
     }
 
     @Operation(summary = "Create a new program", description = "Create a new program with skincare information")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Endpoint for creating new program", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = NewProgramResponse.class))
+            }),
+    })
     @PostMapping(consumes = { MediaType.APPLICATION_JSON_VALUE })
     @ResponseStatus(HttpStatus.CREATED)
-    public Map<String, Object> postNewProgram(
+    public NewProgramResponse postNewProgram(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "A request to create a new program") @RequestBody @Valid CreateProgramRequest request) {
-        Program newProgram = programService.createProgram(request);
-        return APIResponse.generateResponse(true, "Berhasil buat program", newProgram);
+        ProgramDTO newProgram = programService.createProgram(request);
+        return new NewProgramResponse(true, "Berhasil buat program", newProgram);
     }
 
     @Operation(summary = "Update the program", description = "Update status active of a program")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Endpoint for update the status of program", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = UpdateProgramResponse.class))
+            }),
+    })
     @PutMapping(value = "/{programId}")
-    public Map<String, Object> updateFinishProgram(
+    public UpdateProgramResponse updateFinishProgram(
             @Parameter(description = "programId that used to query on database") @PathVariable int programId) {
-        Program updatedProgram = programService.updateProgram(programId);
-        return APIResponse.generateResponse(true, "Program berhasil diupdate", updatedProgram);
+        ProgramDTO updatedProgram = programService.updateProgram(programId);
+        return new UpdateProgramResponse(true, "Program berhasil diupdate", updatedProgram);
     }
 
     @Operation(summary = "Get all program", description = "Get all information about all program")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Endpoint for get all programs based on logged in user", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = AllProgramResponse.class))
+            }),
+    })
     @GetMapping()
-    public Map<String, Object> getAllProgram() {
-        List<Program> list = programService.getAllProgram();
-        return APIResponse.generateResponse(true, "List Semua program untuk user ini", list);
+    public AllProgramResponse getAllProgram() {
+        List<ProgramDTO> list = programService.getAllProgram();
+        return new AllProgramResponse(true, "List Semua program untuk user ini", list);
     }
 
+    // Todo change DTO
     @Operation(summary = "Get program by id", description = "Get all information about program by id")
     @GetMapping("/{programId}")
-    public Map<String, Object> getProgramById(@PathVariable int programId) {
-        Program programResponse = programService.getProgramById(programId);
-        return APIResponse.generateResponse(true, "List Semua program untuk user ini", programResponse);
+    public ProgramDetailResponse getProgramById(@PathVariable int programId) {
+        ProgramDTO programResponse = programService.getProgramById(programId);
+        return new ProgramDetailResponse(true, "List Semua program untuk user ini", programResponse);
     }
 }
