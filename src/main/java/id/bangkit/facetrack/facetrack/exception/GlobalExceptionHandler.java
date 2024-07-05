@@ -3,7 +3,6 @@ package id.bangkit.facetrack.facetrack.exception;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.http.HttpServletRequest;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -14,14 +13,18 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import id.bangkit.facetrack.facetrack.dto.response.errors.ErrorResponse;
-import id.bangkit.facetrack.facetrack.dto.response.users.ConfirmOTPResponse;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = InvalidScanInputException.class)
+    public ErrorResponse handleInvalidScanInputException(InvalidScanInputException ex, HttpServletRequest request) {
+        return new ErrorResponse(false, ex.getMessage());
+    }
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(value = InvalidOTPException.class)

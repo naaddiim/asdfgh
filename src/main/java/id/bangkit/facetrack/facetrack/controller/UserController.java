@@ -2,7 +2,8 @@ package id.bangkit.facetrack.facetrack.controller;
 
 import id.bangkit.facetrack.facetrack.dto.*;
 import id.bangkit.facetrack.facetrack.dto.request.users.ChangePasswordRequest;
-import id.bangkit.facetrack.facetrack.dto.request.users.CreateAndLoginUserRequest;
+import id.bangkit.facetrack.facetrack.dto.request.users.LoginRequest;
+import id.bangkit.facetrack.facetrack.dto.request.users.RegisterRequest;
 import id.bangkit.facetrack.facetrack.dto.request.users.ForgotPasswordRequest;
 import id.bangkit.facetrack.facetrack.dto.request.users.UpdateUserRequest;
 import id.bangkit.facetrack.facetrack.dto.response.users.AuthenticationResponse;
@@ -42,7 +43,7 @@ public class UserController {
         })
         @PostMapping(value = "/login", consumes = { MediaType.APPLICATION_JSON_VALUE })
         public AuthenticationResponse authenticate(
-                        @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "A request to authenticate the user") @RequestBody CreateAndLoginUserRequest authRequest) {
+                        @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "A request to authenticate the user") @RequestBody LoginRequest authRequest) {
                 String accessToken = authenticationService.authentication(authRequest);
                 return new AuthenticationResponse(true, "Access Token", accessToken);
         }
@@ -66,7 +67,7 @@ public class UserController {
         @PostMapping(value = "/register", consumes = { MediaType.APPLICATION_JSON_VALUE })
         @ResponseStatus(HttpStatus.CREATED)
         public RegisterUserResponse createUser(
-                        @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "A request to create user object") @RequestBody @Valid CreateAndLoginUserRequest request) {
+                        @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "A request to create user object") @RequestBody @Valid RegisterRequest request) {
                 NewUserDTO newUser = userService.createUser(request);
                 return new RegisterUserResponse(true, "Berhasil membuat user", newUser);
         }

@@ -1,5 +1,6 @@
 package id.bangkit.facetrack.facetrack.dto;
 
+import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -13,12 +14,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @JsonPropertyOrder({ "id" })
-public class ProgramDetailDTO {
+public class ScanDTO {
     @JsonProperty("id")
-    private int programId;
-    private String namaProgram;
-    private boolean isDone = false;
-    private boolean isActive = true;
-    private List<SkincareDTO> skincares;
-    private List<ScanDTO> scans;
+    private int scanId;
+    private String gambar;
+    private List<NumberOfProblemDTO> numberOfProblems;
+    private Date createdAt;
 }

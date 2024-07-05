@@ -2,14 +2,14 @@ package id.bangkit.facetrack.facetrack.service;
 
 import id.bangkit.facetrack.facetrack.dto.*;
 import id.bangkit.facetrack.facetrack.dto.request.users.ChangePasswordRequest;
-import id.bangkit.facetrack.facetrack.dto.request.users.CreateAndLoginUserRequest;
+import id.bangkit.facetrack.facetrack.dto.request.users.RegisterRequest;
 import id.bangkit.facetrack.facetrack.dto.request.users.ForgotPasswordRequest;
 import id.bangkit.facetrack.facetrack.dto.request.users.UpdateUserRequest;
 
 import org.springframework.mail.SimpleMailMessage;
 
 public interface UserService {
-    NewUserDTO createUser(CreateAndLoginUserRequest request);
+    NewUserDTO createUser(RegisterRequest request);
 
     UserDTO findUserById(int userId);
 

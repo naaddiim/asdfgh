@@ -1,8 +1,7 @@
-package id.bangkit.facetrack.facetrack.dto.request;
+package id.bangkit.facetrack.facetrack.dto.request.programs;
 
 import java.util.List;
 
-import id.bangkit.facetrack.facetrack.entity.Scan;
 import id.bangkit.facetrack.facetrack.entity.Skincare;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;

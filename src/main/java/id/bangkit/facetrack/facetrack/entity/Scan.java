@@ -42,5 +42,5 @@ public class Scan {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "scan", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "number-of-problems")
-    private List<NumberOfProblems> numberOfProblems;
+    private List<NumberOfProblem> numberOfProblems;
 }

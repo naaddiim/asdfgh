@@ -6,7 +6,6 @@ import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +14,6 @@ import java.util.Date;
 import java.util.Map;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class JWTService {
     private final JWTProperties jwtProperties;

@@ -24,7 +24,7 @@ public class Problem {
     private String deskripsi;
     private String saran;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "problem", cascade = CascadeType.ALL) @JsonManagedReference(value = "problems")
-    private List<NumberOfProblems> numberOfProblems;
+    private List<NumberOfProblem> numberOfProblems;
 
     @Column(name = "created_at") @Temporal(TemporalType.TIMESTAMP) @Builder.Default
     private Date createdAt = new Date();

@@ -5,22 +5,17 @@ import org.springframework.stereotype.Component;
 
 import id.bangkit.facetrack.facetrack.dto.ProgramDetailDTO;
 import id.bangkit.facetrack.facetrack.entity.Program;
-import id.bangkit.facetrack.facetrack.mappers.Mapper;
+import id.bangkit.facetrack.facetrack.mappers.MapTo;
 import lombok.RequiredArgsConstructor;
 
 @Component
 @RequiredArgsConstructor
-public class ProgramDetailMapperImpl implements Mapper<Program, ProgramDetailDTO> {
+public class ProgramDetailMapperImpl implements MapTo<Program, ProgramDetailDTO> {
     private final ModelMapper modelMapper;
 
     @Override
     public ProgramDetailDTO mapTo(Program program) {
         return modelMapper.map(program, ProgramDetailDTO.class);
-    }
-
-    @Override
-    public Program mapFrom(ProgramDetailDTO programDetailDTO) {
-        return modelMapper.map(programDetailDTO, Program.class);
     }
     
 }

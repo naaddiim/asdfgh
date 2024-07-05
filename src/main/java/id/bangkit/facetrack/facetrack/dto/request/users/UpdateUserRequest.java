@@ -1,7 +1,6 @@
 package id.bangkit.facetrack.facetrack.dto.request.users;
 
 import id.bangkit.facetrack.facetrack.entity.Gender;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

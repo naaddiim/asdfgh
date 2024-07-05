@@ -1,4 +1,4 @@
-package id.bangkit.facetrack.facetrack.controller;
+package id.bangkit.facetrack.facetrack.dto.response.programs;
 
 public record CheckAvailabilityResponse(
     boolean status,

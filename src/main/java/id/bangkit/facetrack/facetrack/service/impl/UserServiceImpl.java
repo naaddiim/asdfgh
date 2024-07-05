@@ -4,7 +4,7 @@ import id.bangkit.facetrack.facetrack.config.JWTProperties;
 import id.bangkit.facetrack.facetrack.dto.NewUserDTO;
 import id.bangkit.facetrack.facetrack.dto.UserDTO;
 import id.bangkit.facetrack.facetrack.dto.request.users.ChangePasswordRequest;
-import id.bangkit.facetrack.facetrack.dto.request.users.CreateAndLoginUserRequest;
+import id.bangkit.facetrack.facetrack.dto.request.users.RegisterRequest;
 import id.bangkit.facetrack.facetrack.dto.request.users.ForgotPasswordRequest;
 import id.bangkit.facetrack.facetrack.dto.request.users.UpdateUserRequest;
 import id.bangkit.facetrack.facetrack.entity.OTP;
@@ -14,7 +14,7 @@ import id.bangkit.facetrack.facetrack.exception.EmailUnavailableException;
 import id.bangkit.facetrack.facetrack.exception.ExpiredOTPException;
 import id.bangkit.facetrack.facetrack.exception.InvalidOTPException;
 import id.bangkit.facetrack.facetrack.exception.UserNotFoundException;
-import id.bangkit.facetrack.facetrack.mappers.Mapper;
+import id.bangkit.facetrack.facetrack.mappers.MapTo;
 import id.bangkit.facetrack.facetrack.repository.OtpRepository;
 import id.bangkit.facetrack.facetrack.repository.UserRepository;
 import id.bangkit.facetrack.facetrack.service.CustomUserDetailsService;
@@ -41,10 +41,10 @@ public class UserServiceImpl implements UserService {
     private final JWTService jwtService;
     private final JWTProperties jwtProperties;
     private final JavaMailSender javaMailSender;
-    private final Mapper<User, UserDTO> userMapper;
+    private final MapTo<User, UserDTO> userMapper;
 
     @Override
-    public NewUserDTO createUser(CreateAndLoginUserRequest request) {
+    public NewUserDTO createUser(RegisterRequest request) {
         User found = userRepository.findByEmail(request.email());
         if (found != null) {
             throw new EmailUnavailableException("This email cannot be used");

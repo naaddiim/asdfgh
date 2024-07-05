@@ -4,7 +4,6 @@ import id.bangkit.facetrack.facetrack.service.FileStorageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/file")
 @Tag(name = "File", description = "Endpoint for serving static resources")
-@Slf4j
 public class FileController {
     private final FileStorageService fileStorageService;
 

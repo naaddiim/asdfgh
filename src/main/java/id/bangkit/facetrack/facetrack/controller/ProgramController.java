@@ -2,8 +2,9 @@ package id.bangkit.facetrack.facetrack.controller;
 
 import id.bangkit.facetrack.facetrack.dto.ProgramDTO;
 import id.bangkit.facetrack.facetrack.dto.ProgramDetailDTO;
-import id.bangkit.facetrack.facetrack.dto.request.CreateProgramRequest;
+import id.bangkit.facetrack.facetrack.dto.request.programs.CreateProgramRequest;
 import id.bangkit.facetrack.facetrack.dto.response.programs.AllProgramResponse;
+import id.bangkit.facetrack.facetrack.dto.response.programs.CheckAvailabilityResponse;
 import id.bangkit.facetrack.facetrack.dto.response.programs.NewProgramResponse;
 import id.bangkit.facetrack.facetrack.dto.response.programs.ProgramDetailResponse;
 import id.bangkit.facetrack.facetrack.dto.response.programs.UpdateProgramResponse;
@@ -84,7 +85,6 @@ public class ProgramController {
         return new AllProgramResponse(true, "List Semua program untuk user ini", list);
     }
 
-    // Todo change DTO
     @Operation(summary = "Get program by id", description = "Get all information about program by id")
     @GetMapping("/{programId}")
     public ProgramDetailResponse getProgramById(@PathVariable int programId) {

@@ -1,10 +1,7 @@
 package id.bangkit.facetrack.facetrack.controller;
 
 import id.bangkit.facetrack.facetrack.dto.ProblemDTO;
-import id.bangkit.facetrack.facetrack.dto.response.APIResponse;
 import id.bangkit.facetrack.facetrack.dto.response.problems.AllProblemResponse;
-import id.bangkit.facetrack.facetrack.entity.Problem;
-import id.bangkit.facetrack.facetrack.repository.ProblemRepository;
 import id.bangkit.facetrack.facetrack.service.ProblemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -18,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/problems")

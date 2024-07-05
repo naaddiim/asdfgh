@@ -1,7 +1,5 @@
 package id.bangkit.facetrack.facetrack.dto.response;
 
-import org.springframework.http.HttpStatus;
-
 import java.util.HashMap;
 import java.util.Map;
 

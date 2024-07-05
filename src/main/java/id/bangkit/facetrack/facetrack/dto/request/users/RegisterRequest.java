@@ -4,7 +4,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
 
-public record CreateAndLoginUserRequest(
+public record RegisterRequest(
         @NotEmpty(message = "Email tidak boleh kosong")
         @Email(message = "harus merupakan format email yang valid")
         String email,

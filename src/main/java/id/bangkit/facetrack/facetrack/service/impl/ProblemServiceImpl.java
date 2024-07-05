@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import id.bangkit.facetrack.facetrack.dto.ProblemDTO;
 import id.bangkit.facetrack.facetrack.entity.Problem;
-import id.bangkit.facetrack.facetrack.mappers.Mapper;
+import id.bangkit.facetrack.facetrack.mappers.MapTo;
 import id.bangkit.facetrack.facetrack.repository.ProblemRepository;
 import id.bangkit.facetrack.facetrack.service.ProblemService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +15,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProblemServiceImpl implements ProblemService {
     private final ProblemRepository problemRepository;
-    private final Mapper<Problem, ProblemDTO> problemMapper;
+    private final MapTo<Problem, ProblemDTO> problemMapper;
 
     @Override
     public List<ProblemDTO> findAllProblem() {

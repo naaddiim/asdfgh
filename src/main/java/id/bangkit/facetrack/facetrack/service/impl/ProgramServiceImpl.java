@@ -7,14 +7,14 @@ import java.util.List;
 import id.bangkit.facetrack.facetrack.entity.User;
 import id.bangkit.facetrack.facetrack.exception.ProgramNotFoundException;
 import id.bangkit.facetrack.facetrack.exception.UnauthorizedNewProgramException;
-import id.bangkit.facetrack.facetrack.mappers.Mapper;
+import id.bangkit.facetrack.facetrack.mappers.MapTo;
 import id.bangkit.facetrack.facetrack.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import id.bangkit.facetrack.facetrack.dto.ProgramDTO;
 import id.bangkit.facetrack.facetrack.dto.ProgramDetailDTO;
-import id.bangkit.facetrack.facetrack.dto.request.CreateProgramRequest;
+import id.bangkit.facetrack.facetrack.dto.request.programs.CreateProgramRequest;
 import id.bangkit.facetrack.facetrack.entity.Program;
 import id.bangkit.facetrack.facetrack.entity.Skincare;
 import id.bangkit.facetrack.facetrack.repository.ProgramRepository;
@@ -26,8 +26,8 @@ import lombok.RequiredArgsConstructor;
 public class ProgramServiceImpl implements ProgramService {
     private final ProgramRepository programRepository;
     private final UserRepository userRepository;
-    private final Mapper<Program, ProgramDTO> programMapper;
-    private final Mapper<Program, ProgramDetailDTO> programDetailMapper;
+    private final MapTo<Program, ProgramDTO> programMapper;
+    private final MapTo<Program, ProgramDetailDTO> programDetailMapper;
 
     @Override
     public ProgramDTO createProgram(CreateProgramRequest request) {

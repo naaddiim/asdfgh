@@ -8,8 +8,6 @@ import id.bangkit.facetrack.facetrack.repository.ProblemRepository;
 import id.bangkit.facetrack.facetrack.repository.UserRepository;
 import id.bangkit.facetrack.facetrack.service.FileStorageService;
 import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.List;
 

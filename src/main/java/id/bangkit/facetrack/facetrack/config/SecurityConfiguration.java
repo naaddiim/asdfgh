@@ -17,7 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfiguration {
     private final AuthenticationProvider authenticationProvider;
 
-
     @Bean
     DefaultSecurityFilterChain securityFilterChain(HttpSecurity http, JWTAuthenticationFilter jwtAuthenticationFilter)
             throws Exception {
@@ -25,13 +24,12 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
                     authorizationManagerRequestMatcherRegistry
-                            .requestMatchers("/api/v1/auth/user/current",
-                                    "/api/v1/programs/**",
-                                    "/api/v1/scans/**",
-                                    "/api/v1/problems")
+                            .requestMatchers("/api/v1/auth/user/**")
                             .fullyAuthenticated()
-                            .requestMatchers("/**")
-                            .permitAll();
+                            .requestMatchers("/api/v1/auth/**", "/swagger-ui/**", "/api-docs/**")
+                            .permitAll()
+                            .anyRequest()
+                            .fullyAuthenticated();
                 })
                 .sessionManagement(httpSecuritySessionManagementConfigurer -> {
                     httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS);
