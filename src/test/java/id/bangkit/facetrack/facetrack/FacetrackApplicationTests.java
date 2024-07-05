@@ -1,13 +1,15 @@
 package id.bangkit.facetrack.facetrack;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest
+import org.junit.jupiter.api.Test;
+
 class FacetrackApplicationTests {
 
 	@Test
 	void contextLoads() {
+		String hehe = "hehe";
+		assertThat(hehe).isEqualTo("hehe");
 	}
 
 }
